@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
   InitWindow(width, height, title);
 
   while (!WindowShouldClose()) {
-      float frameTime = GetFrameTime()*10;
+      float frameTime = GetFrameTime();
 
     if (ENABLE_MOTION) {
       cam.x += cam.speed_x * frameTime;
@@ -138,10 +138,12 @@ int main(int argc, char *argv[]) {
     integral_r += proportional_r * frameTime;
     integral_g += proportional_g * frameTime;
     integral_b += proportional_b * frameTime;
-
+    
+    /*
     integral_r = Clamp(MIN_PID_VALUE, MAX_PID_VALUE, integral_r);
     integral_g = Clamp(MIN_PID_VALUE, MAX_PID_VALUE, integral_g);
     integral_b = Clamp(MIN_PID_VALUE, MAX_PID_VALUE, integral_b);
+    */
 
     // derivative
     derivative_r = (proportional_r - previous_proportional_r) / frameTime;
