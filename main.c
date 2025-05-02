@@ -13,6 +13,7 @@ const char *target_color_text = "Target Color";
 
 Color TARGET_COLOR = GREEN;
 
+int correlation_threshold = 5;
 int ENABLE_MOTION = 0;
 int PRINT_OUTPUT = 0;
 int FLIP_IMAGE = 0;
@@ -55,7 +56,6 @@ typedef struct Chameleon {
 } Chameleon;
 
 void render_chameleon(Chameleon cam) {
-    cam.image = LoadImage(cam.image_path);
     if (FLIP_IMAGE) ImageFlipHorizontal(&cam.image);
     IMG_WIDTH = cam.image.width;
     IMG_HEIGHT = 0.69*cam.image.height;
@@ -104,6 +104,7 @@ int main(int argc, char *argv[]) {
   cam.speed_y = 4.0;
   cam.color = GREEN;
   cam.image_path = "./resources/chameleon.png";
+  cam.image = LoadImage(cam.image_path);
 
   InitWindow(width, height, title);
 
@@ -167,18 +168,18 @@ int main(int argc, char *argv[]) {
 
     if (PRINT_OUTPUT) printf("chameleon {%d %d %d} <==> PID {%d %d %d} \n", cam.color.r, cam.color.g, cam.color.b, TARGET_COLOR.r, TARGET_COLOR.g, TARGET_COLOR.b);
 
-    if (abs(cam.color.r - TARGET_COLOR.r) < 1 && 
-        abs(cam.color.g - TARGET_COLOR.g) < 1 && 
-        abs(cam.color.b - TARGET_COLOR.b) < 1) 
+    if (abs(cam.color.r - TARGET_COLOR.r) < correlation_threshold && 
+        abs(cam.color.g - TARGET_COLOR.g) < correlation_threshold  && 
+        abs(cam.color.b - TARGET_COLOR.b) < correlation_threshold) 
         {
-          printf("===============================================================================================");
-          printf("...COLOR MATCHING DONE...\n");
-          printf("chamel colors =>  %d %d %d \n", cam.color.r, cam.color.g, cam.color.g);
-          printf("target colors => %d %d %d \n", TARGET_COLOR.r, TARGET_COLOR.g, TARGET_COLOR.b);
-          printf("================================================================================================");
+          printf("=====================================================================================\n");
+          printf("...TRANSFORMATION DONE...\n");
+          printf("transformed color  => %d %d %d \n", cam.color.r, cam.color.g, cam.color.g);
+          printf("input target color => %d %d %d \n", TARGET_COLOR.r, TARGET_COLOR.g, TARGET_COLOR.b);
+          printf("======================================================================================\n");
           break;
     }
-
+    
     BeginDrawing();
     ClearBackground(BLACK);
 

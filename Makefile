@@ -1,11 +1,11 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -I/usr/local/include
 LDFLAGS = -L/usr/local/lib -lraylib
-TARGET = program
+TARGET = cam_sim 
 SRCS = main.c
 
 motion = false
-color = green
+color = red 
 
 all: build
 	
